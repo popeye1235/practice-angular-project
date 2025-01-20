@@ -1,0 +1,131 @@
+<!-- interpolation -->
+
+<div>Welcome {{ name }}</div>
+<div>
+  {{ 2 + 2 }}
+</div>
+<div>
+  {{ "welcome " + name }}
+</div>
+<div>
+  {{ name.length }}
+</div>
+<div>
+  {{ name.toUpperCase() }}
+</div>
+<div>
+  {{ greetUser() }}
+</div>
+
+<!-- property binding -->
+
+<input [id]="myId" type="text" value="sudip" />
+<input [disabled]="isDisabled" id="{{ myId }}" type="text" value="sudip" />
+<input bind-disabled="!isDisabled" id="{{ myId }}" type="text" value="sudip" />
+
+<!-- class binding -->
+
+<h2 class="text-success">Storyteller</h2>
+<h2 [class]="successClass">Storyteller</h2>
+<h2 class="text-special" [class]="successClass">Storyteller</h2>
+<h2 [class.text-danger]="hasError" [class.text-special]="hasError">
+  Storyteller
+</h2>
+<h2 [ngClass]="messageClasses">
+  I am in creation as well as in destruction - Shiva
+</h2>
+
+<!-- style binding -->
+
+<h2 [style.color]="hasError ? 'red' : 'green'">Style Binding</h2>
+<h2 [style.color]="highlightColor">Style Binding 2</h2>
+<h2 [ngStyle]="titleStyles">Style Binding 3</h2>
+
+<!-- event binding -->
+<button (click)="onClick($event)">Greet</button>
+<h2>{{ greeting }}</h2>
+<button (click)="greeting = 'welcome Sudip'">Greet</button>
+
+<!-- template reference variable -->
+<input #myInput type="text">
+<button (click)="logMessage(myInput.value)">log</button>
+
+<!-- two way data binding -->
+<input [(ngModel)]="name" type="text">
+<p>{{name}}</p>
+
+<!-- *ngIf directive -->
+<h2 *ngIf="displayName; else elseBlock">Hello this is *ngIf directive</h2>
+<ng-template #elseBlock>
+  <h2>
+    this is else block
+  </h2>
+</ng-template>
+
+<div *ngIf="displayName; then thenBlock; else elseBlock"></div>
+<ng-template #thenBlock>
+  <p>This is then Block!</p>
+</ng-template>
+<ng-template #elseBlock>
+  <p>This is else Block!</p>
+</ng-template>
+
+
+<!-- *ngSwitch Directive -->
+<div [ngSwitch]="color">
+   <div *ngSwitchCase="'red'" [style.color]="color">You picked red color</div>
+   <div *ngSwitchCase="'blue'" [style.color]="color">You picked blue color</div>
+   <div *ngSwitchCase="'green'" [style.color]="color">You picked green color</div>
+   <div *ngSwitchDefault [style.color]="'Orange'">Pick again</div>
+ </div>
+
+
+ <!-- *ngFor Directive -->
+ <div *ngFor="let color of colorArr; index as i">
+   <h2>{{i}} {{color}}</h2>
+ </div>
+ <div *ngFor="let color of colorArr; first as f">
+   <h2>{{f}} {{color}}</h2>
+ </div>
+ <div *ngFor="let color of colorArr; last as l">
+   <h2>{{l}} {{color}}</h2>
+ </div>
+ <div *ngFor="let color of colorArr; odd as o">
+   <h2>{{o}} {{color}}</h2>
+ </div>
+ <div *ngFor="let color of colorArr; even as e">
+   <h2>{{e}} {{color}}</h2>
+ </div>
+
+ <!-- components interection -->
+ <h2>{{ "Welcome " + parentData }}</h2>
+ <h2>{{ "Welcome " + codename }}</h2>
+ <button (click)=fireEvent()>click to see data from child</button>
+
+ <!-- pipes -->
+ <h2>{{ name | lowercase }}</h2>
+ <h2>{{ name | uppercase }}</h2>
+ <h2>{{ messagePipe | titlecase }}</h2>
+ <h2>{{ name | slice:3:8 }}</h2>
+ <h2>{{ name | uppercase }}</h2>
+ <h2>{{ object | json }}</h2>
+
+ <h2>{{ 1.23456 | number: '1.2-2' }}</h2>
+ <h2>{{ 1.23456 | number: '2.7-8' }}</h2>
+ <h2>{{ 1.23456 | number: '3.1-2' }}</h2>
+
+
+ <h2>{{ 0.90 | percent }}</h2>
+ <h2>{{ 0.5 | percent }}</h2>
+
+ <h2>{{ 0.90 | currency }}</h2>
+ <h2>{{ 0.90 | currency: 'INR' }}</h2>
+ <h2>{{ 0.90 | currency: 'INR': 'code' }}</h2>
+
+ <h2>{{  date }}</h2>
+ <h2>{{  date | date: 'short'}}</h2>
+ <h2>{{  date | date: 'shortDate' }}</h2>
+ <h2>{{  date | date: 'shortTime' }}</h2>
+
+ 
+

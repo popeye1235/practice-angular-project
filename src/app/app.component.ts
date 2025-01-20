@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'practice-angular-project';
+  title = 'practice-angular-project Sudip';
+  public name = "Babumosai";
+  public message: any;
+
+  handleChildEvent(data: string) {
+    this.message = data;
+  }
 }
