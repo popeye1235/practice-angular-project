@@ -5,9 +5,15 @@ import { ActivatedRoute, Router, ParamMap } from '@angular/router';
   selector: 'app-department-detail',
   template: `
   <h3>You selected department with id = {{ departmentId }}</h3>
+  <p>
+    <button (click)="showOverview()">Overview</button>
+    <button (click)="showContact()">Contact</button>
+  </p>
+  <router-outlet></router-outlet>
+  <p>
   <button (click)="goPrevious()" class="button" [disabled]="isPreviousDisabled()">⬅️ Previous</button>
   <button (click)="goNext()" class="button" [disabled]="isNextDisabled()">Next ➡️</button>
-
+  </p>
   <div>
     <button (click)="gotoDepartments()">Back</button>
   </div>
@@ -54,6 +60,14 @@ public departmentId: any;
     // this.router.navigate(['/departments', {id: selectedId, test: 'testvalue'}]);
     // same goes for this above line
     this.router.navigate(['../', {id: selectedId}], {relativeTo: this.route})
+  }
+
+  public showOverview() {
+    this.router.navigate(['overview'], {relativeTo: this.route})
+  }
+
+  public showContact() {
+    this.router.navigate(['contact'], {relativeTo: this.route})
   }
 }
 
