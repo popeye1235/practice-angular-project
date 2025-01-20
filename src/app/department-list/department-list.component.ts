@@ -37,7 +37,9 @@ public selectedId: any;
   }
 
   onSelect(department: any) {
-    this.router.navigate(['/departments', department?.id])
+    // this.router.navigate(['/departments', department?.id])
+    // this thing in the above sometimes can be redundent 
+    this.router.navigate([department.id], {relativeTo: this.route})
   }
 
   isSelected(department: any) {

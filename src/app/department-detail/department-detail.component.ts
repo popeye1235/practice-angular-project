@@ -51,7 +51,9 @@ public departmentId: any;
 
   public gotoDepartments() {
     let selectedId = this.departmentId ? this.departmentId : null;
-    this.router.navigate(['/departments', {id: selectedId, test: 'testvalue'}]);
+    // this.router.navigate(['/departments', {id: selectedId, test: 'testvalue'}]);
+    // same goes for this above line
+    this.router.navigate(['../', {id: selectedId}], {relativeTo: this.route})
   }
 }
 
