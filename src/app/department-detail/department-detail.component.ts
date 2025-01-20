@@ -7,6 +7,10 @@ import { ActivatedRoute, Router, ParamMap } from '@angular/router';
   <h3>You selected department with id = {{ departmentId }}</h3>
   <button (click)="goPrevious()" class="button" [disabled]="isPreviousDisabled()">⬅️ Previous</button>
   <button (click)="goNext()" class="button" [disabled]="isNextDisabled()">Next ➡️</button>
+
+  <div>
+    <button (click)="gotoDepartments()">Back</button>
+  </div>
   `,
   styles: [
   ]
@@ -43,6 +47,11 @@ public departmentId: any;
 
   public isNextDisabled(): boolean {
     return this.departmentId >= 6;
+  }
+
+  public gotoDepartments() {
+    let selectedId = this.departmentId ? this.departmentId : null;
+    this.router.navigate(['/departments', {id: selectedId, test: 'testvalue'}]);
   }
 }
 
