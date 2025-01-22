@@ -1,15 +1,184 @@
-<div style="text-align:center">
+<!-- <div style="text-align:center">
   <h1>
     routing and navigation
   </h1>
 </div>
-<h2>{{message}}</h2>
+<h2>{{message}}</h2> -->
 <!-- <app-test (childEvent)="message=$event" (childEvent)="handleChildEvent($event)" [parentData]="name"></app-test> -->
 <!-- <employee-list></employee-list>
 <employee-detail></employee-detail> -->
-<nav>
+<!-- <nav>
   <a routerLink="/departments" routerLinkActive="active">Departments</a>
   <a routerLink="/employees" routerLinkActive="active">Employess</a>
   <a routerLink="/employeeDetails" routerLinkActive="active">Employee Details</a>
 </nav>
-<router-outlet></router-outlet>
+<router-outlet></router-outlet> -->
+
+<!-- Template driven forms -->
+ <div class="container-fluid mb-5">
+  <h1>Bootcamp Enrollment Form(Template Driven Form)</h1>
+  <small *ngIf="submitted && (errorMsg === '')">Form submitted successfully ✅</small>
+  <div class="text-danger" *ngIf="errorMsg">{{errorMsg}}</div>
+  <form #userForm="ngForm" novalidate (ngSubmit)="onSubmit()" *ngIf="!submitted">
+    <!-- {{userForm.form.valid}} -->
+<!-- 
+    {{ userForm.value | json }}
+    <hr/>
+    {{ userModel | json }} -->
+
+<!-- ngModel group -->
+    <!-- <div ngModelGroup="address">
+      <div class="form-group">
+        <label>Street</label>
+        <input type="text" class="form-control" name="street" ngModel>
+      </div>
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" class="form-control" name="city" ngModel>
+      </div>
+      <div class="form-group">
+        <label>State</label>
+        <input type="text" class="form-control" name="state" ngModel>
+      </div>
+      <div class="form-group">
+        <label>Postal Code</label>
+        <input type="text" class="form-control" name="postalCode" ngModel>
+      </div>
+    </div> -->
+
+
+    <div class="form-group">
+      <label for="">Name</label>
+      <input type="text" required #name="ngModel" [class.is-invalid]="name.invalid  && name.touched" class="form-control" name="userName" [(ngModel)]="userModel.name">
+      <small [class.d-none]="name.valid || name.untouched" class="text-danger">Name is required *</small>
+    </div>
+
+    <!-- {{name.untouched}}
+    {{name.pristine}}
+    {{name.valid}} -->
+
+    <div class="form-group">
+      <label for="">Email</label>
+      <input type="email" class="form-control" #email="ngModel" [pattern]="emailPattern" required 
+      [class.is-invalid]="email.invalid && email.touched"
+       name="email"  [(ngModel)]="userModel.email">
+       <div *ngIf="email.errors && (email.invalid || email.touched)">
+        <small class="text-danger" *ngIf="email.errors.required">Email is required</small>
+        <small class="text-danger" *ngIf="email.errors.pattern">Provide valid email id</small>
+     </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Phone</label>
+      <input type="tel" #phone="ngModel" pattern="^\d{10}$" required 
+      [class.is-invalid]="phone.invalid && phone.touched" class="form-control"  name="phone"
+        [(ngModel)]="userModel.phone">
+      <!-- <small [class.d-none]="phone.valid || phone.untouched" class="text-danger">Phone number is required & must be 10 digits*</small> -->
+       <!-- better error handling -->
+       <div *ngIf="phone.errors && (phone.invalid || phone.touched)">
+          <small class="text-danger" *ngIf="phone.errors.required">Phone number is required</small>
+          <small class="text-danger" *ngIf="phone.errors.pattern">Phone number must be 10 digits</small>
+       </div>
+    </div>
+
+    <div class="form-group">
+      <select (blur)="validateTopic(topic.value)" (change)="validateTopic(topic.value)" #topic="ngModel" [class.is-invalid]="topicHasError && topic.touched" class="custom-select" name="topic" [(ngModel)]="userModel.topic">
+        <option value="default">I am interested in</option>
+        <option *ngFor="let topic of topics">{{ topic }}</option>
+      </select>
+      <small [class.d-none]="!topicHasError || topic.untouched" class="text-danger">Please choose a topic</small>
+    </div>
+
+    <div class="mb-3">
+      <label>Time preference</label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="timePreference" value="morning" [(ngModel)]="userModel.timePreference">
+        <label class="form-check-label">Morning (9AM - 12PM)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="timePreference" value="evening" [(ngModel)]="userModel.timePreference">
+        <label class="form-check-label">Evening (5PM - 8PM)</label>
+      </div>
+    </div>
+
+    <div class="form-check mb-3">
+      <input class="form-check-input"  name="subscribe"  type="checkbox" [(ngModel)]="userModel.subscribe">
+      <label class="form-check-lael">Send me promotional offers</label>
+    </div>
+
+    <button class="btn btn-primary" [disabled]="userForm.form.invalid || topicHasError" type="submit">Submit form</button>
+  </form>
+ </div>
+
+ <hr/>
+
+ <!-- Reactive form -->
+
+ <div class="container-fluid">
+  <h1>Registration Form(Reactive Form)</h1>
+  <small *ngIf="isSubmitted && (errorMsg === '')">Form submitted successfully ✅</small>
+  <div class="text-danger" *ngIf="errorMsg">{{errorMsg}}</div>
+  <form [formGroup]="registrationForm"  *ngIf="registrationForm && !isSubmitted" (ngSubmit)="onSubmitReactiveForm()">
+    <div class="form-group">
+      <label>Username</label>
+      <!-- instead of "registrationForm.get('userName')?" this you can create a getter function to use here and clean html -->
+      <input [class.is-invalid]="registrationForm?.get('userName')?.invalid && registrationForm?.get('userName')?.touched" formControlName="userName" type="text" class="form-control">
+      <!-- <small [class.d-none]="registrationForm.get('userName')?.valid || registrationForm.get('userName')?.untouched" class="text-danger">username is required *</small> -->
+      <div *ngIf="registrationForm?.get('userName')?.invalid && registrationForm?.get('userName')?.touched">
+        <small *ngIf="registrationForm?.get('userName')?.errors?.required" class="text-danger">Username is required*</small>
+        <small *ngIf="registrationForm?.get('userName')?.errors?.minlength" class="text-danger">Username must be at least 3 characters</small>
+        <small *ngIf="registrationForm?.get('userName')?.errors?.forbiddenName" class="text-danger">{{ userName?.errors?.forbiddenName?.value }} Username not allowed</small>
+
+        <!-- using getter function example -->
+        <!-- <small *ngIf="userName?.errors?.minlength" class="text-danger">Username must be at least 3 characters</small> -->
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <button type="button" class="btn btn-primary btn-sm m-2" (click)="addAlternateEmail()">Add e-mail</button>
+      <input [class.is-invalid]="email?.invalid && email?.touched" type="text" class="form-check-input" formControlName="email" class="form-control">
+      <small [class.d-none]="email?.valid || email?.untouched" class="text-danger">Email is requied</small>
+      <div formArrayName="alternateEmails" *ngFor="let email of alternateEmails?.controls; let i=index">
+        <input type="text" class="form-control my-1" [formControlName]="i">
+      </div>
+    </div>
+
+    <div class="form-check mb-3">
+      <input class="form-check-input" formControlName="subscribe" type="checkbox">
+      <label class="form-check-label">Send me promotional offers</label>
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input formControlName="password" type="password" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input [class.is-invalid]="registrationForm?.errors?.misMatch" formControlName="confirmPassword" type="password" class="form-control">
+      <small class="text-danger" *ngIf="registrationForm?.errors?.misMatch">Password do not match</small>
+    </div>
+
+    <div formGroupName="address">
+
+      <div class="form-group">
+        <label>City</label>
+        <input formControlName="city" type="text" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label>State</label>
+        <input formControlName="state" type="text" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label>Postal code</label>
+        <input formControlName="postalCode" type="text" class="form-control">
+      </div>
+    </div>
+    <button [disabled]="!registrationForm?.valid" class="btn btn-primary" type="submit">Register</button>
+    <!-- <button class="btn btn-secondary ml-4" (click)="loadApiData()" type="submit">Load API data</button> -->
+  </form>
+  <!-- {{registrationForm?.value | json}} -->
+ </div>
